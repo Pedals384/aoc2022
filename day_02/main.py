@@ -24,8 +24,7 @@ DATAPATH = "input.txt"
 
 matches = read_text_file(DATAPATH)
 
-#print(matches)
-
+# Sets scores for all possible rock, paper, scissors moves
 my_scores_dict = {
     "X": 1,
     "Y": 2,
@@ -38,15 +37,30 @@ opponent_scores_dict = {
     "C": 3,
 }
 
+
 def find_scores(matches):
+    """Generates a list of all the scores from the moves in each game 
+    by matching the moves against a dictionary of scores for both 
+    players and appending the values to lists of scores.
+
+    Args:
+        matches (list): List of strings, each containing 2 letters to
+        represent each players' move.
+
+    Returns:
+        opponent_scores (list): List of integers for the scores for
+        each match in the list of matches.
+        
+        my_scores (list): list of integers for the score for each match
+        in the list of matches
+    """
     my_scores = []
     opponent_scores = []
     for match in matches:
         opponent_play, my_play = match.split(" ")
         opponent_scores.append(opponent_scores_dict[opponent_play])
         my_scores.append(my_scores_dict[my_play])
-    
-    #print(opponent_scores, my_scores)                
+                   
     return opponent_scores, my_scores
 
 #find_scores(matches)
@@ -59,44 +73,39 @@ def score_wins():
     for opponent_score, my_score in zip(opponent_scores, my_scores):
         #print(opponent_scores)
         #print(my_scores)
-        if opponent_score == 1:
-            if my_score == 1:
-                my_wins.append(3)
-                opponent_wins.append(3)
-            elif my_score == 2:
-                my_wins.append(6)
-            else:
-                opponent_wins.append(6)
-        elif opponent_score == 2:
-            if my_score == 1:
-                opponent_wins.append(6)
-            elif my_score == 2:
-                my_wins.append(3)
-                opponent_wins.append(3)
-            else:
-                my_wins.append(6)
-        else:
-            if my_score == 1:
-                my_wins.append(6)
-            elif my_score == 2:
-                opponent_wins.append(6)
-            else:
-                my_wins.append(3)
-                opponent_wins.append(3)
-            
-        # if opponent_score > my_score:
-        #     opponent_wins.append(6)
-        # elif opponent_score == my_score:
-        #     opponent_wins.append(3)
-        #     my_wins.append(3)
-        # elif my_score == 1 and opponent_score ==3:
-        #     my_wins.append(6)
-        # elif opponent_score == 1 and my_score == 3:
-        #     opponent_wins.append(6)
-        # elif my_score > opponent_score:
-        #     my_wins.append(6)
-        #    # print(my_wins)
+        match opponent_score:
+            # Where opponent score is a certain score, and my score is
+            # a set score, carry out specific actions to add points
+            case 1:
+                match my_score:
+                    case 1:
+                        my_wins.append(3)
+                        opponent_wins.append(3)
+                    case 2:
+                        my_wins.append(6)
+                    case _:
+                        opponent_wins.append(6)
+            case 2:
+                match my_score:
+                    case 1:
+                        opponent_wins.append(6)
+                    case 2:
+                        my_wins.append(3)
+                        opponent_wins.append(3)
+                    case _:
+                        my_wins.append(6)
+            case _:
+                match my_score:
+                    case 1:
+                        my_wins.append(6)
+                    case 2:
+                        opponent_wins.append(6)
+                    case _:
+                        my_wins.append(3)
+                        opponent_wins.append(3)
+                    
     return sum(my_scores) + sum(my_wins)
+
 
 score_wins()
 
