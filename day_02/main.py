@@ -20,16 +20,11 @@ def read_text_file(path: str) -> list[str]:
         return [line.strip("\n") for line in f.readlines()]
 
 
-DATAPATH = "test_input.txt"
-my_scores = []
-opponent_scores = []
+DATAPATH = "input.txt"
+
 matches = read_text_file(DATAPATH)
 
-for match in matches:
-    opponent_play, my_play = match.split(" ")
-    #print(opponent_play)
-    #print(my_play)
-
+#print(matches)
 
 my_scores_dict = {
     "X": 1,
@@ -43,22 +38,36 @@ opponent_scores_dict = {
     "C": 3,
 }
 
-# loop through each line, if dictionary key in line, append item to each score
-# sum the scores
+def find_scores(matches):
+    my_scores = []
+    opponent_scores = []
+    for match in matches:
+        opponent_play, my_play = match.split(" ")
+        opponent_scores.append(opponent_scores_dict[opponent_play])
+        my_scores.append(my_scores_dict[my_play])
+    
+    #print(opponent_scores, my_scores)                
+    return opponent_scores, my_scores
 
-for opponent_play, my_play in zip(opponent_play, my_play):
-    for key, value in opponent_scores_dict.items():
-        if key in opponent_play:
-            opponent_scores.append(value)
-    for key, value in my_scores_dict.items():
-        if key in my_play:
-            my_scores.append(value)
-    if opponent_play.value > my_play.value:
-        opponent_scores.append(6)
-    if opponent_play.value == my_play.value:
-        opponent_scores.append(3)
-        my_scores.append(3)
+#find_scores(matches)
 
-print(my_scores)
-print(opponent_scores)
-print(opponent_play,my_play)
+def score_wins():
+    my_wins = []
+    opponent_wins = []
+    opponent_scores, my_scores = find_scores(matches)
+
+    for opponent_score, my_score in zip(opponent_scores, my_scores):
+        #print(opponent_scores)
+        #print(my_scores)
+        if opponent_score > my_score:
+            opponent_wins.append(6)
+        elif opponent_score == my_score:
+            opponent_wins.append(3)
+            my_wins.append(3)
+        elif my_score > opponent_score:
+            my_wins.append(6)
+           # print(my_wins)
+    return sum(my_scores) + sum(my_wins)
+
+score_wins()
+
