@@ -20,7 +20,7 @@ def read_text_file(path: str) -> list[str]:
         return [line.strip("\n") for line in f.readlines()]
 
 
-DATAPATH = "input.txt"
+DATAPATH = "test_input.txt"
 
 matches = read_text_file(DATAPATH)
 
@@ -109,3 +109,63 @@ def score_wins():
 
 score_wins()
 
+""" Part 2"""
+
+# run the scores 
+# if X,lose
+# if y, draw
+
+def follow_strategy():
+    opponent_scores, my_scores = find_scores(matches)
+    part_2_wins = []
+    part_2_opponent_wins = []
+    
+    # maths not right here!
+    for opponent_score, my_score in zip(opponent_scores,my_scores):
+        if opponent_score == 1:
+            if my_score == 1:
+                part_2_wins.append(3)
+                part_2_opponent_wins.append(6)
+            elif my_score == 2:
+                part_2_wins.append(1)
+                part_2_opponent_wins.append(3)
+                part_2_wins.append(3)
+            else:
+                part_2_wins.append(2)
+                part_2_wins.append(6)
+        
+        elif opponent_score == 2:
+            if my_score == 1:
+                part_2_wins.append(1)
+            
+            elif my_score == 2:
+                part_2_wins.append(2) 
+                part_2_opponent_wins.append(3)
+                part_2_wins.append(3)
+            
+            else:
+                part_2_wins.append(3)
+                part_2_wins.append(6)
+        
+        else:
+            if my_score == 1:
+            # lose
+                part_2_opponent_wins.append(6)
+                part_2_wins.append(2)
+            elif my_score == 2:
+                part_2_wins.append(3) 
+                part_2_opponent_wins.append(3)
+                part_2_wins.append(3)
+            else:
+                part_2_wins.append(1)
+                part_2_wins.append(6)
+    #print(part_2_wins)
+    return sum(part_2_wins)
+
+follow_strategy()
+
+
+
+        # 'C X': 2, //0 + 2
+        # 'C Y': 6, //3 + 3
+        # 'C Z': 7, //6 + 1
