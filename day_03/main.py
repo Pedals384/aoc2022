@@ -20,7 +20,7 @@ def read_text_file(path: str) -> list[str]:
         return [line.strip("\n") for line in f.readlines()]
 
 
-DATAPATH = "test_input.txt"
+DATAPATH = "input.txt"
 
 rucksacks = read_text_file(DATAPATH)
 
@@ -84,6 +84,7 @@ def find_common_items(rucksacks):
     return priorities_sum
 
 
+
 find_common_items(rucksacks)
 
 
@@ -122,14 +123,15 @@ def find_item_in_chunk(chunks):
         chunks (list): List of lists, each containing three strings of 
         a mixture of lower and upper case letters.
     """
+    
     priorities = set_priorities()
-    shared_items = []
-    #print(chunks)
+    
+    shared_items = 0
     for chunk in chunks:
             for i in chunk[0]:
-                if i in chunk[1] and chunk[2]:
-                    shared_items.append(priorities[i])
+                if i in chunk[1] and i in chunk[2]:
+                    shared_items += priorities[i]
                     break
-    print(sum(shared_items))
+    print(shared_items)
     
 find_item_in_chunk(chunks)
